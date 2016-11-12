@@ -32,32 +32,6 @@ router.post('/multiply', function (req, res) {
   res.sendStatus(201);
  });
 
-// router.post('/', function (req, res) {
-//
-//   switch(calculateObject.operator) {
-//     case "add":
-//       result.number = Number(calculateObject.firstNumber) + Number(calculateObject.secondNumber);
-//       console.log(result);
-//       break;
-//
-//     case "subtract":
-//       result.number = Number(calculateObject.firstNumber) - Number(calculateObject.secondNumber);
-//       console.log(result);
-//       break;
-//
-//     case "divide":
-//       result.number = Number(calculateObject.firstNumber) / Number(calculateObject.secondNumber);
-//       console.log(result);
-//       break;
-//
-//     case "multiply":
-//       result.number = Number(calculateObject.firstNumber) * Number(calculateObject.secondNumber);
-//       console.log(result);
-//       break;
-//   }
-//   res.sendStatus(201);
-// });
-
 
 router.get('/', function (req, res) {
 

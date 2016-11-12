@@ -1,7 +1,9 @@
+var mathObject = {};
+
+
 $(document).ready(function(){
   var displayString = "";
   var lowerDisplayString = "";
-  var mathObject = {};
   var numberCounter = 1;
 
   //update number in display
@@ -16,8 +18,10 @@ $(document).ready(function(){
   //clear out text in display
   $('#clear').on('click', function() {
     displayString = "";
+    lowerDisplayString = "";
     $('#display').text("0");
     $('#lower-display').text("0");
+    mathObject.firstNumber = 0;
   });
 
   //add operator to object. if this is not the first operator selected, run proper calculation, put the result in mathObject.firstNumber, THEN put this operator in mathObject.operartor
@@ -29,12 +33,15 @@ $(document).ready(function(){
         mathObject.firstNumber = Number(displayString);
         mathObject.operator = $(this).attr('id');
         displayString = "";
-        console.log(mathObject);
         numberCounter++;
       }
       else {
         //ajax request to get result of previous calculation
-
+        mathObject.secondNumber = Number(displayString);
+        mathObject.nextOperator = $(this).attr('id');
+        console.log(mathObject);
+        displayString = "";
+        doFirstCalculation();
       }
     }
   });
@@ -50,6 +57,9 @@ $(document).ready(function(){
         data: mathObject,
         success: function(mathObject) {
           getCompleted();
+        },
+        error: function() {
+          console.log("error with operator-equals request");
         }
       });
     } else {
@@ -65,6 +75,9 @@ function getCompleted() {
     success: function(data) {
       console.log('got the completed data!');
       appendCompleted(data);
+    },
+    error: function() {
+      console.log("error with getCompleted function");
     }
   });
 }
@@ -74,7 +87,32 @@ function appendCompleted(data) {
   $('#display').text(data.number);
 }
 
-function clearForm() {
-  $('form').find('input[type=number]').val("");
-  $('#result').text("");
+function doFirstCalculation() {
+  $.ajax({
+    type: 'POST',
+    url: '/math/' + mathObject.operator,
+    data: mathObject,
+    success: function(mathObject) {
+      updateFirstNumber();
+    },
+    error: function() {
+      console.log("error with operator-equals request");
+    }
+  });
+}
+
+function updateFirstNumber() {
+  $.ajax({
+    type: 'GET',
+    url: '/math',
+    success: function(data) {
+      console.log('got the completed data!');
+      mathObject.firstNumber = data.number;
+      mathObject.operator = mathObject.nextOperator;
+      console.log(mathObject);
+    },
+    error: function() {
+      console.log("error with getCompleted function");
+    }
+  });
 }
