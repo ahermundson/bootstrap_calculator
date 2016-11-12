@@ -22,6 +22,8 @@ $(document).ready(function(){
     $('#display').text("0");
     $('#lower-display').text("0");
     mathObject.firstNumber = 0;
+    numberCounter = 1;
+    console.log(mathObject);
   });
 
   //add operator to object. if this is not the first operator selected, run proper calculation, put the result in mathObject.firstNumber, THEN put this operator in mathObject.operartor
