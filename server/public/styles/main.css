@@ -2,14 +2,37 @@ body {
   background-color: black;
 }
 
+
+/*.display-row {
+  height: 100px;
+}*/
+
+.calculator {
+  margin-bottom: 50px;
+}
+
+.number-display {
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+#lower-display {
+  font-size: .75em;
+}
+
 .row {
   font-size: 2.5em;
 }
 
 .number-display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   background-color: gray;
   color: white;
 }
+
+
 
 .number-display p {
   padding-right: 10px;
@@ -44,6 +67,11 @@ body {
   justify-content: center;
   align-items: center;
   border: 1px solid white;
+  border-bottom-right-radius: 7px;
+}
+
+.zero {
+  border-bottom-left-radius: 7px;
 }
 
 

@@ -1,5 +1,6 @@
 $(document).ready(function(){
   var displayString = "";
+  var lowerDisplayString = "";
   var mathObject = {};
   var operatorArray = [];
   var numberCounter = 1;
@@ -7,16 +8,21 @@ $(document).ready(function(){
 
 
   $('.number').on('click', function() {
+    lowerDisplayString += $(this).attr('id');
     displayString += $(this).attr('id');
     $('#display').text(displayString);
+    $('#lower-display').text(lowerDisplayString);
   });
 
   $('#clear').on('click', function() {
     displayString = "";
     $('#display').text("0");
+    $('#lower-display').text("0");
   });
 
   $('.operator').on('click', function() {
+    lowerDisplayString = lowerDisplayString + " " + $(this).text() + " ";
+    $('#lower-display').text(lowerDisplayString);
     if (displayString !== "") {
       if (numberCounter === 1) {
         mathObject.firstNumber = Number(displayString);
@@ -39,6 +45,8 @@ $(document).ready(function(){
           getCompleted();
         }
       });
+    } else {
+      console.log("nope");
     }
   });
 });
