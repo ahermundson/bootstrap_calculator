@@ -4,7 +4,7 @@ var mathObject = {};
 $(document).ready(function(){
   var displayString = "";
   var lowerDisplayString = "";
-  var numberCounter = 1;
+  var firstOperator = true;
 
   //update number in display
   $('.number').on('click', function() {
@@ -22,7 +22,7 @@ $(document).ready(function(){
     $('#display').text("0");
     $('#lower-display').text("0");
     mathObject.firstNumber = 0;
-    numberCounter = 1;
+    firstOperator = true;
     console.log(mathObject);
   });
 
@@ -31,11 +31,11 @@ $(document).ready(function(){
     lowerDisplayString = lowerDisplayString + " " + $(this).text() + " ";
     $('#lower-display').text(lowerDisplayString);
     if (displayString !== "") {
-      if (numberCounter === 1) {
+      if (firstOperator === true) {
         mathObject.firstNumber = Number(displayString);
         mathObject.operator = $(this).attr('id');
         displayString = "";
-        numberCounter++;
+        firstOperator = false;
       }
       else {
         //ajax request to get result of previous calculation
