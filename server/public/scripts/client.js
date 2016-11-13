@@ -1,19 +1,29 @@
+//declare math object to be used globally
 var mathObject = {};
+var keyFrame;
+var positive = true;
+var displayString = "";
+var lowerDisplayString = "";
+var firstOperator = true;
 
 
 $(document).ready(function(){
-  var displayString = "";
-  var lowerDisplayString = "";
-  var firstOperator = true;
 
+
+
+
+
+  $('#negative').on('click', positiveNegative);
   //update number in display
   $('.number').on('click', function() {
     lowerDisplayString += $(this).attr('id');
     displayString += $(this).attr('id');
     $('#display').text(displayString);
     $('#lower-display').text(lowerDisplayString);
+    $(this).addClass('keyFrame');
+    keyFrame = $(this);
+    window.setTimeout(removeKeyframe, 500);
   });
-
 
   //clear out text in display
   $('#clear').on('click', function() {
@@ -36,6 +46,10 @@ $(document).ready(function(){
         mathObject.operator = $(this).attr('id');
         displayString = "";
         firstOperator = false;
+        $(this).addClass('keyFrame');
+        keyFrame = $(this);
+        window.setTimeout(removeKeyframe, 500);
+        positive = true;
       }
       else {
         //ajax request to get result of previous calculation
@@ -43,16 +57,25 @@ $(document).ready(function(){
         mathObject.nextOperator = $(this).attr('id');
         console.log(mathObject);
         displayString = "";
+        $(this).addClass('keyFrame');
+        keyFrame = $(this);
+        window.setTimeout(removeKeyframe, 500);
         doFirstCalculation();
+        positive = true;
       }
     }
   });
 
+  //get final result and display in dispaly window
   $('.operator-equals').on('click', function() {
     //confirm that an operator has been selected
     if (mathObject.hasOwnProperty('operator')) {
       mathObject.secondNumber = Number(displayString);
+      $(this).addClass('keyFrame');
+      keyFrame = $(this);
+      window.setTimeout(removeKeyframe, 500);
       console.log("operator-equals listener", mathObject);
+      positive = true;
       $.ajax({
         type: 'POST',
         url: '/math/' + mathObject.operator,
@@ -69,7 +92,7 @@ $(document).ready(function(){
     }
   });
 });
-
+//function to get get the final result
 function getCompleted() {
   $.ajax({
     type: 'GET',
@@ -83,12 +106,13 @@ function getCompleted() {
     }
   });
 }
-
+//function to append final result to display
 function appendCompleted(data) {
   console.log(data);
   $('#display').text(data.number);
 }
 
+//function to do calculation within string of operations
 function doFirstCalculation() {
   $.ajax({
     type: 'POST',
@@ -103,6 +127,7 @@ function doFirstCalculation() {
   });
 }
 
+//function to update firstNumber in mathObject when doing string of operations
 function updateFirstNumber() {
   $.ajax({
     type: 'GET',
@@ -112,9 +137,42 @@ function updateFirstNumber() {
       mathObject.firstNumber = data.number;
       mathObject.operator = mathObject.nextOperator;
       console.log(mathObject);
+      $('#display').text(mathObject.firstNumber);
     },
     error: function() {
       console.log("error with getCompleted function");
     }
   });
+}
+
+
+//function that removes the keyFrame animation so that the animation will appear everytime a button is clicked
+function removeKeyframe() {
+  keyFrame.removeClass('keyFrame');
+  console.log(keyFrame);
+}
+
+//function that toggles the number to positive or negative
+function positiveNegative() {
+  if (positive === true) {
+    var splitIt = displayString.split('');
+    splitIt.unshift('-');
+    displayString = splitIt.join('');
+    positive = false;
+    $('#display').text(displayString);
+    var lowerSplit = lowerDisplayString.split(' ');
+    lowerSplit[lowerSplit.length - 1] = " " + displayString;
+    lowerDisplayString = lowerSplit.join('');
+    $('#lower-display').text(lowerDisplayString);
+  } else {
+    var splitIt = displayString.split('');
+    splitIt.shift('-');
+    displayString = splitIt.join();
+    $('#display').text(displayString);
+    var lowerSplit = lowerDisplayString.split(' ');
+    lowerSplit[lowerSplit.length - 1] = " " + displayString;
+    lowerDisplayString = lowerSplit.join('');
+    $('#lower-display').text(lowerDisplayString);
+    positive = true;
+  }
 }

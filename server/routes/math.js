@@ -32,6 +32,12 @@ router.post('/multiply', function (req, res) {
   res.sendStatus(201);
  });
 
+ router.post('/modulo', function (req, res) {
+  calculateObject = req.body;
+  result.number = Number(calculateObject.firstNumber) % Number(calculateObject.secondNumber);
+  console.log("divide route");
+  res.sendStatus(201);
+ });
 
 router.get('/', function (req, res) {
 

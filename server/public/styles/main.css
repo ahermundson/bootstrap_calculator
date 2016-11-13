@@ -2,11 +2,6 @@ body {
   background-color: black;
 }
 
-
-/*.display-row {
-  height: 100px;
-}*/
-
 .calculator {
   margin-bottom: 50px;
 }
@@ -32,8 +27,6 @@ body {
   color: white;
 }
 
-
-
 .number-display p {
   padding-right: 10px;
 }
@@ -48,6 +41,16 @@ body {
   border: 1px solid black;
 }
 
+#negative {
+    background-color: gray;
+    color: black;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
 .operator {
   background-color: orange;
   color: white;
@@ -56,6 +59,16 @@ body {
   justify-content: center;
   align-items: center;
   border: 1px solid white;
+}
+
+#modulo {
+  background-color: gray;
+  color: black;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
 }
 
 
@@ -78,3 +91,29 @@ body {
  .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {
   padding: 0;
 }
+
+.keyFrame {
+  animation: fadeIt .5s;
+}
+
+
+@-webkit-keyframes fadeIt {
+  0%   { background-color: gray; }
+  50%  { background-color: rgb(169,169,169); }
+  100% { background-color: gray; }
+  }
+  @-moz-keyframes fadeIt {
+    0%   { background-color: gray; }
+    50%  { background-color: rgb(169,169,169); }
+    100% { background-color: gray; }
+  }
+  @-o-keyframes fadeIt {
+    0%   { background-color: gray; }
+    50%  { background-color: rgb(169,169,169); }
+    100% { background-color: gray; }
+  }
+  @keyframes fadeIt {
+    0%   { background-color: gray; }
+    50%  { background-color: rgb(169,169,169); }
+    100% { background-color: gray; }
+  }
