@@ -22,94 +22,107 @@ $(document).ready(function(){
   //toggle between negative and positive numbers
   $('#negative').on('click', positiveNegative);
   //update number in display
-  $('.number').on('click', function() {
-    lowerDisplayString += $(this).attr('id');
-    displayString += $(this).attr('id');
+  $('.number').on('click', numberClick);
+  //allow user to type in numbers
+  $(document).on('keyup', keyUp);
+  //clear out text in display
+  $('#clear').on('click', clearClick);
+  //add operator to object. if this is not the first operator selected, run proper calculation, put the result in mathObject.firstNumber, THEN put this operator in mathObject.operartor
+  $('.operator').on('click', operatorClick);
+  //get final result and display in dispaly window
+  $('.operator-equals').on('click', equalsClick);
+});
+
+
+//update number in display
+function numberClick() {
+  lowerDisplayString += $(this).attr('id');
+  displayString += $(this).attr('id');
+  $('#display').text(displayString);
+  $('#lower-display').text(lowerDisplayString);
+  $(this).addClass('keyFrame');
+  keyFrame = $(this);
+  window.setTimeout(removeKeyframe, 250);
+}
+
+//allow user to type in numbers
+function keyUp(e) {
+  if (keycodes[e.keyCode] !== undefined) {
+    lowerDisplayString += keycodes[e.keyCode];
+    displayString += keycodes[e.keyCode];
     $('#display').text(displayString);
     $('#lower-display').text(lowerDisplayString);
-    $(this).addClass('keyFrame');
-    keyFrame = $(this);
-    window.setTimeout(removeKeyframe, 250);
-  });
+  }
+}
 
+//clear out text in display
+function clearClick() {
+  displayString = "";
+  lowerDisplayString = "";
+  $('#display').text("0");
+  $('#lower-display').text("0");
+  mathObject.firstNumber = 0;
+  firstOperator = true;
+  console.log(mathObject);
+}
 
-  //allow user to type in commands
-  $(document).on('keyup', function(e) {
-    if (keycodes[e.keyCode] !== undefined) {
-      lowerDisplayString += keycodes[e.keyCode];
-      displayString += keycodes[e.keyCode];
-      $('#display').text(displayString);
-      $('#lower-display').text(lowerDisplayString);
-    }
-  });
-
-  //clear out text in display
-  $('#clear').on('click', function() {
-    displayString = "";
-    lowerDisplayString = "";
-    $('#display').text("0");
-    $('#lower-display').text("0");
-    mathObject.firstNumber = 0;
-    firstOperator = true;
-    console.log(mathObject);
-  });
-
-  //add operator to object. if this is not the first operator selected, run proper calculation, put the result in mathObject.firstNumber, THEN put this operator in mathObject.operartor
-  $('.operator').on('click', function() {
-    lowerDisplayString = lowerDisplayString + " " + $(this).text() + " ";
-    $('#lower-display').text(lowerDisplayString);
-    if (displayString !== "") {
-      if (firstOperator === true) {
-        mathObject.firstNumber = Number(displayString);
-        mathObject.operator = $(this).attr('id');
-        displayString = "";
-        firstOperator = false;
-        $(this).addClass('keyFrame');
-        keyFrame = $(this);
-        window.setTimeout(removeKeyframe, 250);
-        positive = true;
-      }
-      else {
-        //ajax request to get result of previous calculation
-        mathObject.secondNumber = Number(displayString);
-        mathObject.nextOperator = $(this).attr('id');
-        console.log(mathObject);
-        displayString = "";
-        $(this).addClass('keyFrame');
-        keyFrame = $(this);
-        window.setTimeout(removeKeyframe, 250);
-        doFirstCalculation();
-        positive = true;
-      }
-    }
-  });
-
-  //get final result and display in dispaly window
-  $('.operator-equals').on('click', function() {
-    //confirm that an operator has been selected
-    if (mathObject.hasOwnProperty('operator')) {
-      mathObject.secondNumber = Number(displayString);
+//add operator to object. if this is not the first operator selected, run proper calculation, put the result in mathObject.firstNumber, THEN put this operator in mathObject.operartor
+function operatorClick() {
+  lowerDisplayString = lowerDisplayString + " " + $(this).text() + " ";
+  $('#lower-display').text(lowerDisplayString);
+  if (displayString !== "") {
+    if (firstOperator === true) {
+      mathObject.firstNumber = Number(displayString);
+      mathObject.operator = $(this).attr('id');
+      displayString = "";
+      firstOperator = false;
       $(this).addClass('keyFrame');
       keyFrame = $(this);
       window.setTimeout(removeKeyframe, 250);
-      console.log("operator-equals listener", mathObject);
       positive = true;
-      $.ajax({
-        type: 'POST',
-        url: '/math/' + mathObject.operator,
-        data: mathObject,
-        success: function(mathObject) {
-          getCompleted();
-        },
-        error: function() {
-          console.log("error with operator-equals request");
-        }
-      });
-    } else {
-      console.log("nope");
     }
-  });
-});
+    else {
+      //ajax request to get result of previous calculation
+      mathObject.secondNumber = Number(displayString);
+      mathObject.nextOperator = $(this).attr('id');
+      console.log(mathObject);
+      displayString = "";
+      $(this).addClass('keyFrame');
+      keyFrame = $(this);
+      window.setTimeout(removeKeyframe, 250);
+      doFirstCalculation();
+      positive = true;
+    }
+  }
+}
+
+//get final result and display in dispaly window
+function equalsClick() {
+  //confirm that an operator has been selected
+  if (mathObject.hasOwnProperty('operator')) {
+    mathObject.secondNumber = Number(displayString);
+    $(this).addClass('keyFrame');
+    keyFrame = $(this);
+    window.setTimeout(removeKeyframe, 250);
+    console.log("operator-equals listener", mathObject);
+    positive = true;
+    $.ajax({
+      type: 'POST',
+      url: '/math/' + mathObject.operator,
+      data: mathObject,
+      success: function(mathObject) {
+        getCompleted();
+      },
+      error: function() {
+        console.log("error with operator-equals request");
+      }
+    });
+  } else {
+    console.log("nope");
+  }
+}
+
+
 //function to get get the final result
 function getCompleted() {
   $.ajax({
