@@ -162,7 +162,7 @@ function positiveNegative() {
     $('#display').text(displayString);
     var lowerSplit = lowerDisplayString.split(' ');
     lowerSplit[lowerSplit.length - 1] = " " + displayString;
-    lowerDisplayString = lowerSplit.join('');
+    lowerDisplayString = lowerSplit.join(' ');
     $('#lower-display').text(lowerDisplayString);
   } else {
     var splitIt = displayString.split('');
@@ -170,8 +170,8 @@ function positiveNegative() {
     displayString = splitIt.join();
     $('#display').text(displayString);
     var lowerSplit = lowerDisplayString.split(' ');
-    lowerSplit[lowerSplit.length - 1] = " " + displayString;
-    lowerDisplayString = lowerSplit.join('');
+    lowerSplit[lowerSplit.length - 1] = displayString;
+    lowerDisplayString = lowerSplit.join(' ');
     $('#lower-display').text(lowerDisplayString);
     positive = true;
   }
