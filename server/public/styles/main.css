@@ -39,6 +39,7 @@ body {
   justify-content: center;
   align-items: center;
   border: 1px solid black;
+  cursor: pointer;
 }
 
 #negative {
@@ -49,6 +50,7 @@ body {
     justify-content: center;
     align-items: center;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 .operator {
@@ -59,6 +61,7 @@ body {
   justify-content: center;
   align-items: center;
   border: 1px solid white;
+  cursor: pointer;
 }
 
 #modulo {
@@ -69,6 +72,7 @@ body {
   justify-content: center;
   align-items: center;
   border: 1px solid black;
+  cursor: pointer;
 }
 
 
@@ -81,6 +85,7 @@ body {
   align-items: center;
   border: 1px solid white;
   border-bottom-right-radius: 7px;
+  cursor: pointer;
 }
 
 .zero {
