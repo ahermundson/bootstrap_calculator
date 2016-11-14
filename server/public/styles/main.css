@@ -93,7 +93,7 @@ body {
 }
 
 .keyFrame {
-  animation: fadeIt .5s;
+  animation: fadeIt .25s;
 }
 
 
