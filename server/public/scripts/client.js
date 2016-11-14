@@ -24,7 +24,7 @@ $(document).ready(function(){
   //update number in display
   $('.number').on('click', numberClick);
   //allow user to type in numbers
-  $(document).on('keydown', keyUp);
+  $(document).on('keyup', keyUp);
   //clear out text in display
   $('#clear').on('click', clearClick);
   //add operator to object. if this is not the first operator selected, run proper calculation, put the result in mathObject.firstNumber, THEN put this operator in mathObject.operartor
