@@ -22,7 +22,7 @@ $(document).ready(function(){
     $('#lower-display').text(lowerDisplayString);
     $(this).addClass('keyFrame');
     keyFrame = $(this);
-    window.setTimeout(removeKeyframe, 500);
+    window.setTimeout(removeKeyframe, 250);
   });
 
   //clear out text in display
@@ -48,7 +48,7 @@ $(document).ready(function(){
         firstOperator = false;
         $(this).addClass('keyFrame');
         keyFrame = $(this);
-        window.setTimeout(removeKeyframe, 500);
+        window.setTimeout(removeKeyframe, 250);
         positive = true;
       }
       else {
@@ -59,7 +59,7 @@ $(document).ready(function(){
         displayString = "";
         $(this).addClass('keyFrame');
         keyFrame = $(this);
-        window.setTimeout(removeKeyframe, 500);
+        window.setTimeout(removeKeyframe, 250);
         doFirstCalculation();
         positive = true;
       }
@@ -73,7 +73,7 @@ $(document).ready(function(){
       mathObject.secondNumber = Number(displayString);
       $(this).addClass('keyFrame');
       keyFrame = $(this);
-      window.setTimeout(removeKeyframe, 500);
+      window.setTimeout(removeKeyframe, 250);
       console.log("operator-equals listener", mathObject);
       positive = true;
       $.ajax({
