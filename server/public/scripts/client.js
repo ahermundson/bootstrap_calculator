@@ -1,18 +1,25 @@
-//declare math object to be used globally
+//declare variables to be used globally
 var mathObject = {};
 var keyFrame;
 var positive = true;
 var displayString = "";
 var lowerDisplayString = "";
 var firstOperator = true;
-
+var keycodes = {
+  48 : "0",
+  49 : "1",
+  50 : "2",
+  51 : "3",
+  52 : "4",
+  53 : "5",
+  54 : "6",
+  55 : "7",
+  56 : "8",
+  57 : "9"
+}
 
 $(document).ready(function(){
-
-
-
-
-
+  //toggle between negative and positive numbers
   $('#negative').on('click', positiveNegative);
   //update number in display
   $('.number').on('click', function() {
@@ -23,6 +30,17 @@ $(document).ready(function(){
     $(this).addClass('keyFrame');
     keyFrame = $(this);
     window.setTimeout(removeKeyframe, 250);
+  });
+
+
+  //allow user to type in commands
+  $(document).on('keyup', function(e) {
+    if (keycodes[e.keyCode] !== undefined) {
+      lowerDisplayString += keycodes[e.keyCode];
+      displayString += keycodes[e.keyCode];
+      $('#display').text(displayString);
+      $('#lower-display').text(lowerDisplayString);
+    }
   });
 
   //clear out text in display
